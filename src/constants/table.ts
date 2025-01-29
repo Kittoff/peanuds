@@ -9,11 +9,7 @@ export const GENDER_OPTIONS: Filter["options"] = [
   { label: "N/A", value: "n/a" },
 ];
 
-export const PEOPLE_COLUMNS = [
-  { key: "name", label: "Name" },
-  { key: "gender", label: "Gender" },
-  { key: "height", label: "Height" },
-];
+export const PEOPLE_COLUMNS = [{ key: "name", label: "Name" }];
 export const FILMS_COLUMNS = [
   { key: "name", label: "Name" },
   { key: "year", label: "Year" },

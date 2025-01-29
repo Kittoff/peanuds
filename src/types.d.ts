@@ -29,3 +29,10 @@ export interface PaginationConfig {
   onPageChange: (page: number) => void;
   onEntriesPerPageChange: (entries: number) => void;
 }
+
+export type People = {
+  uid: number;
+  name: string;
+  gender: string;
+  height: number;
+};

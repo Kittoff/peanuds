@@ -21,15 +21,17 @@ export function TableContent<T>({ data, columns }: TableContentProps<T>) {
         <TableHead>
           <TableRow>
             {columns.map((column, colIndex) => (
-              <TableCell key={colIndex}>
-                {column.label || String(column.key)}
+              <TableCell key={colIndex} variant="head">
+                <Typography variant="h5">
+                  {column.label || String(column.key)}
+                </Typography>
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <MuiTableBody>
           {data.length > 0 ? (
-            data.map((item, index) => (
+            data?.map((item, index) => (
               <TableRow key={index}>
                 {columns.map((column, colIndex) => (
                   <TableCell key={colIndex}>

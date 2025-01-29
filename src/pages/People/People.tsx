@@ -1,33 +1,47 @@
+// components/People.tsx
 import { Container } from "@mui/material";
 import Footer from "../../components/Footer";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Table } from "../../components/Table/Table";
 import { GENDER_OPTIONS, PEOPLE_COLUMNS } from "../../constants/table";
-
-interface Character {
-  name: string;
-  gender: string;
-  height: number;
-}
+import { usePeople } from "../../hooks/usePeople";
+import { useBoundStore } from "../../store/boundedStore";
+import { PeopleTable } from "./types";
 
 const People = () => {
-  const [gender, setGender] = useState<string>("");
-  const [entriesPerPageCount, setEntriesPerPageCount] = useState<number>(10);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { data, isLoading, isError } = usePeople();
+  const {
+    filters,
+    setFilters,
+    currentPage,
+    setCurrentPage,
+    entriesPerPage,
+    setEntriesPerPage,
+  } = useBoundStore((state) => state.people);
+
   const totalPages = 10;
 
-  const data: Character[] = [
-    { name: "Luke Skywalker", gender: "male", height: 172 },
-  ];
+  useEffect(() => {
+    if (data) {
+      console.log("data : ", data);
+    }
+  }, [data]);
 
-  const filters = [
+  const filtersOption = [
     {
       label: "Gender",
-      value: gender,
+      value: filters.gender || "",
       options: GENDER_OPTIONS,
-      onChange: setGender,
+      onChange: (value: string) =>
+        setFilters({
+          ...filters,
+          gender: value as "" | "male" | "female" | "N/A",
+        }),
     },
   ];
+
+  if (isLoading) return <div>Chargement...</div>;
+  if (isError) return <div>Erreur lors du chargement des données</div>;
 
   return (
     <>
@@ -37,17 +51,17 @@ const People = () => {
         disableGutters
         sx={{ my: 5, px: 4 }}
       >
-        <Table<Character>
+        <Table<PeopleTable>
           title="Characters List"
-          data={data}
+          data={[]}
           columns={PEOPLE_COLUMNS}
-          filters={filters}
+          filters={filtersOption}
           pagination={{
             currentPage,
             totalPages,
-            entriesPerPage: entriesPerPageCount,
+            entriesPerPage,
             onPageChange: setCurrentPage,
-            onEntriesPerPageChange: setEntriesPerPageCount,
+            onEntriesPerPageChange: setEntriesPerPage,
           }}
         />
       </Container>
