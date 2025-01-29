@@ -1,5 +1,5 @@
 export interface PeopleTable {
+  uid: string;
   name: string;
-  gender: string;
-  height: number;
+  url: string;
 }

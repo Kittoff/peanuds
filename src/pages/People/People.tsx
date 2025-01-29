@@ -21,6 +21,10 @@ const People = () => {
 
   const totalPages = 10;
 
+  const getLink = (item: PeopleTable) => {
+    return item?.uid ? `/people?selected=${item.uid}` : "";
+  };
+
   useEffect(() => {
     if (data) {
       console.log("data : ", data);
@@ -53,9 +57,10 @@ const People = () => {
       >
         <Table<PeopleTable>
           title="Characters List"
-          data={[]}
+          data={data || []}
           columns={PEOPLE_COLUMNS}
           filters={filtersOption}
+          getLink={getLink}
           pagination={{
             currentPage,
             totalPages,

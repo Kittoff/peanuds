@@ -6,15 +6,23 @@ import {
   TableCell,
   Typography,
   TableHead,
+  Link,
+  Stack,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { Column } from "../../../types";
 
 interface TableContentProps<T> {
   data: T[];
   columns: Column<T>[];
+  getLink: (item: T) => string;
 }
 
-export function TableContent<T>({ data, columns }: TableContentProps<T>) {
+export function TableContent<T>({
+  data,
+  columns,
+  getLink,
+}: TableContentProps<T>) {
   return (
     <TableContainer>
       <MuiTable>
@@ -35,9 +43,15 @@ export function TableContent<T>({ data, columns }: TableContentProps<T>) {
               <TableRow key={index}>
                 {columns.map((column, colIndex) => (
                   <TableCell key={colIndex}>
-                    {column.render
-                      ? column.render(item)
-                      : String(item[column.key as keyof T] || "N/A")}
+                    {column.render ? (
+                      column.render(item)
+                    ) : (
+                      <Stack spacing={1} my={2}>
+                        <Link component={RouterLink} to={getLink(item)}>
+                          {String(item[column.key as keyof T] || "N/A")}
+                        </Link>
+                      </Stack>
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

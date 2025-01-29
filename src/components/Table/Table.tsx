@@ -9,6 +9,7 @@ interface TableProps<T> {
   columns: Column<T>[];
   filters?: Filter[];
   pagination?: PaginationConfig;
+  getLink: (item: T) => string;
 }
 
 export function Table<T>({
@@ -17,11 +18,12 @@ export function Table<T>({
   columns,
   filters,
   pagination,
+  getLink,
 }: TableProps<T>) {
   return (
     <div>
       <TableHeader title={title} filters={filters} />
-      <TableContent data={data} columns={columns} />
+      <TableContent data={data} columns={columns} getLink={getLink} />
       {pagination && <TableFooter pagination={pagination} />}
     </div>
   );
